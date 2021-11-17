@@ -1,1 +1,1 @@
-hdpweb/  =  hdpwep.zip
+# hdpweb.zip = hdpweb/
