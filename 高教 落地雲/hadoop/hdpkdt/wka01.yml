@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wka01
+  labels:
+    dt: hdp
+spec:
+  hostname: wka01
+  subdomain: hdp 
+  containers:
+  - name: wka01
+    image: dt210.img
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "8192Mi"
+    stdin: true
+    tty: true 
+    command: [/bin/bash]
+    volumeMounts:
+    - mountPath: "/home/bigred/dn"
+      name: dn
+    - name: dtconf
+      mountPath: /opt/hadoop-2.10.1/etc/hadoop/
+      subPath: hdp210
+    - name: dtconf
+      mountPath: /opt/spark-3.0.1-bin-hadoop2.7/conf
+      subPath: spkconf
+    - name: dtconf
+      mountPath: /opt/hbase-1.4.13/conf/
+      subPath: hbconf
+  volumes:
+  - name: dn
+    hostPath:
+      path: /opt/wka01/dn
+  - name: dtconf
+    hostPath:
+      path: /home/bigred/dt/conf
+  dnsConfig:
+    searches:
+    - hdp.hdp.svc.sre
+  nodeSelector:
+    kubernetes.io/hostname : 120-96-143-93-k3w93
+  restartPolicy: Never

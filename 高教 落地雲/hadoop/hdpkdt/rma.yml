@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rma
+  labels:
+    dt: hdp
+spec:
+  hostname: rma
+  subdomain: hdp 
+  containers:
+  - name: rma
+    image: dt210.img
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "1024Mi"
+    stdin: true
+    tty: true 
+    volumeMounts:
+     - name: hdpconf
+       mountPath: /opt/hadoop-2.10.1/etc/hadoop/
+     - name: spkconf
+       mountPath: /opt/spark-3.0.1-bin-hadoop2.7/conf
+    command: [/bin/bash]
+  dnsConfig:
+    searches:
+    - hdp.hdp.svc.sre
+  nodeSelector:
+    kubernetes.io/hostname : 120-96-143-83-k3m83
+  volumes:
+    - name: hdpconf
+      hostPath:
+        path: /home/bigred/dt/conf/hdp210
+    - name: spkconf
+      hostPath:
+        path: /home/bigred/dt/conf/spkconf
+  restartPolicy: Never

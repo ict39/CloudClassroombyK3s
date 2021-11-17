@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ds101
+  labels:
+    dt: hdp
+spec:
+  hostname: ds101
+  subdomain: hdp 
+  containers:
+  - name: ds101
+    image: dt210.img
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "1024Mi"
+    ports:
+     - containerPort: 22
+       hostPort: 22101
+    stdin: true
+    tty: true
+    command:
+    - "/bin/bash"
+    - "-c"
+    - |
+      useradd -m -s /bin/bash ds01;
+      echo 'ds01:ds01' | chpasswd;
+      useradd -m -s /bin/bash ds02;
+      echo 'ds02:ds02' | chpasswd;
+      useradd -m -s /bin/bash ds03;
+      echo 'ds03:ds03' | chpasswd;
+      useradd -m -s /bin/bash ds04;
+      echo 'ds04:ds04' | chpasswd;
+      useradd -m -s /bin/bash ds05;
+      echo 'ds05:ds05' | chpasswd;
+      useradd -m -s /bin/bash ds06;
+      echo 'ds06:ds06' | chpasswd;
+      /bin/bash
+    volumeMounts:
+     - mountPath: "/home/ds01"
+       name: ds01
+     - mountPath: "/home/ds02"
+       name: ds02
+     - mountPath: "/home/ds03"
+       name: ds03
+     - mountPath: "/home/ds04"
+       name: ds04
+     - mountPath: "/home/ds05"
+       name: ds05
+     - mountPath: "/home/ds06"
+       name: ds06
+     - mountPath: "/opt/dataset"
+       name: dataset
+     - mountPath: "/opt/bin"
+       name: dtbin
+  volumes:
+    - name: ds01
+      hostPath:
+        path: /opt/ds101/ds01
+    - name: ds02
+      hostPath:
+        path: /opt/ds101/ds02
+    - name: ds03
+      hostPath:
+        path: /opt/ds101/ds03
+    - name: ds04
+      hostPath:
+        path: /opt/ds101/ds04
+    - name: ds05
+      hostPath:
+        path: /opt/ds101/ds05
+    - name: ds06
+      hostPath:
+        path: /opt/ds101/ds06
+    - name: dataset
+      hostPath:
+        path: /opt/dataset
+    - name: dtbin
+      hostPath:
+        path: /home/bigred/dt/bin
+  dnsConfig:
+    searches:
+    - hdp.hdp.svc.sre
+  nodeSelector:
+    kubernetes.io/hostname : 120-96-143-85-k3m85
+  restartPolicy: Never

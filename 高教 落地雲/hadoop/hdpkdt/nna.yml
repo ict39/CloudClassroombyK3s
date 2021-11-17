@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nna
+  labels:
+    dt: hdp
+spec:
+  hostname: nna
+  subdomain: hdp 
+  containers:
+  - name: nna
+    image: dt210.img
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "1024Mi"
+    stdin: true
+    tty: true
+    command: [/bin/bash]
+    volumeMounts:
+    - mountPath: "/home/bigred/nn"
+      name: nn
+    - mountPath: "/home/bigred/sn"
+      name: sn
+    - name: hdpconf
+      mountPath: /opt/hadoop-2.10.1/etc/hadoop/
+  volumes:
+  - name: nn
+    hostPath:
+      path: /opt/nna/nn
+  - name: sn
+    hostPath:
+      path: /opt/nna/sn
+  - name: hdpconf
+    hostPath:
+      path: /home/bigred/dt/conf/hdp210
+  dnsConfig:
+    searches:
+    - hdp.hdp.svc.sre
+  nodeSelector:
+    kubernetes.io/hostname : 120-96-143-83-k3m83
+  restartPolicy: Never
