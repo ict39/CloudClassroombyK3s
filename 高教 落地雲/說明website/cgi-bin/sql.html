@@ -1,0 +1,26 @@
+<html>
+1.前往HFS server下載getsql.sh<br>
+$ wget 120.96.143.10/get/getsql.sh<br>
+<br>
+<br>
+2.賦予執行權限，並執行它，取得mariadb的yaml檔<br>
+$ chmod +x getsql.sh<br>
+$ ./getsql.sh<br>
+<br>
+<br>
+3.建立pod<br>
+$ kubectl apply -f hdpsql/.<br>
+<br>
+<br>
+4.查看此pod所在的node位置<br>
+$ kubectl get pods -o wide<br>
+<br>
+<br>
+5.在ADM機器可以直接使用mariadb的client，進入mariadb server<br>
+$ mysql -uroot -proot -h ${node_ip}<br>
+<br>
+<br>
+(6.)在此叢集的pod，若有裝client端，可用 -h sqldb 直接互動<br>
+# mysql -uroot -proot -h sqldb<br>
+
+</html>

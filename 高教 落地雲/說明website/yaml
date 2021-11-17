@@ -1,0 +1,57 @@
+kind: Pod
+apiVersion: v1
+metadata:
+ name: busybox
+ labels:
+   app: busybox
+spec:
+ hostname: busybox
+ containers:
+  - name: busybox
+    image: quay.io/cloudwalker/alpine.sshd
+    ports:
+     - containerPort: 80
+       hostPort: 22200
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "1024Mi"
+    volumeMounts:
+    - mountPath: "/home/bigred/www"
+      name: busybox
+    command:
+    - "/bin/bash"
+    - "-c"
+    - |
+      apk update;
+      apk add mariadb-client;
+      mkdir /home/bigred/www;
+      busybox1.28 httpd -f -p 80 -h /home/bigred/www;
+ volumes:
+   - name: busybox
+     hostPath:
+       path: /opt/www
+ nodeSelector:
+    kubernetes.io/hostname : 120-96-143-85-k3m85
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox-external
+spec:
+  externalIPs:
+  - 120.96.143.85
+  selector:
+    app: busybox
+  ports:
+  - port: 8080
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox1
+spec:
+  selector:
+    app: busybox
+  clusterIP: None

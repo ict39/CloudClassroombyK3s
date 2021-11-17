@@ -1,0 +1,43 @@
+<html>
+1.前往HFS server下載getkdt.sh<br>
+$ wget 120.96.143.10/get/getkdt.sh<br>
+<br>
+<br>
+2.賦予執行權限，並執行它，取得hadoop的yaml檔<br>
+$ chmod +x getkdt.sh<br>
+$ ./getkdt.sh<br>
+<br>
+<br>
+3.建立pod<br>
+$ kubectl apply -f hdpkdt/.<br>
+<br>
+<br>
+4.查看pod們所在的node位置<br>
+$ kubectl get pods -o wide<br>
+<br>
+<br>
+5.進入adm100(hadoop的管理機器)來設定hadoop叢集<br>
+$ ssh bigred@{adm100_ip} -p 22100<br>
+<br>
+格式化hdfs<br>
+$ formathdfs<br>
+<br>
+啟動hdfs<br>
+$ starthdfs<br>
+<br>
+檢查pod內的java程式<br>
+$ hls <br>
+<br>
+啟動yarn<br>
+$ startyarn<br>
+<br>
+檢查pod內的java程式<br>
+$ hls <br>
+<br>
+設定hadoop所需的目錄及權限<br>
+$ lake.schema <br>
+<br>
+建立hadoop的使用者<br>
+$ lake.users<br>
+
+</html>

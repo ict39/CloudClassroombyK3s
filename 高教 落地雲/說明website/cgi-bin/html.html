@@ -1,0 +1,22 @@
+<html>
+1.前往HFS server下載getweb.sh<br>
+$ wget 120.96.143.10/get/getweb.sh<br>
+<br>
+<br>
+2.賦予執行權限，並執行它，取得架網站所需的yaml檔<br>
+$ chmod +x getweb.sh<br>
+$ ./getweb.sh<br>
+<br>
+<br>
+3.建立pod<br>
+$ kubectl apply -f hdpweb/.<br>
+<br>
+<br>
+4.查看此pod所在的node位置及service啟用的externalIP<br>
+$ kubectl get all -o wide<br>
+<br>
+<br>
+5.在ADM機器，執行 upload.sh 可以將學生寫好的html上傳至已經架好的網站<br>
+$ mkdir upload<br>
+$ upload<br>
+</html>
