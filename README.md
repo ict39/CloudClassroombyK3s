@@ -1,5 +1,6 @@
 # 利用 K3S 叢集打造雲端教室
 
+<a href="https://youtu.be/ujJhTd1r0RM" target="_blank">demo video(演示影片)</a>
 [demo video(演示影片)](https://youtu.be/ujJhTd1r0RM)
 
 ## 專題簡介
